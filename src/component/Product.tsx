@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import ProductModal from '../modal/ProductModal';
 
-const Product = ({ name, price, image, onPress }: any) => {
+const Product = ({ name, price, image, onPress }: ProductModal) => {
     return (
-        <TouchableOpacity style={styles.card} onPress={onPress}>
+        <TouchableOpacity style={styles.card} onPress={() => {
+            if (onPress) {
+                onPress();
+            }
+        }}>
             <ImageBackground
                 style={[styles.thumb]}
                 imageStyle={{
