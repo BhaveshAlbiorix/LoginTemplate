@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Formik } from 'formik'
 import styles from '../style/GlobalStyle';
 import * as yup from 'yup'
+import authContext from '../context/AuthContext';
 
 interface LoginValues {
     email: string;
@@ -10,6 +11,12 @@ interface LoginValues {
 }
 
 const Login = ({ navigation }: any) => {
+    const { setAuthenticated } = useContext(authContext);
+    const handleLogin = () => {
+        setAuthenticated(true)
+        navigation.replace('home');
+    };
+
     const initialValue: LoginValues = { email: '', password: '' }
     const loginValidationSchema = yup.object().shape({
         email: yup
@@ -27,8 +34,9 @@ const Login = ({ navigation }: any) => {
                     validationSchema={loginValidationSchema}
                     initialValues={initialValue}
                     onSubmit={(values, { setTouched }) => {
+                        console.log('IsLogin => ');
                         setTouched({ email: true, password: true });
-                        console.log('Values => ', values);
+                        handleLogin();
                     }}
                 >
                     {({ handleChange,

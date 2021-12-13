@@ -8,21 +8,22 @@ import {
     Button,
     StyleSheet
 } from 'react-native';
+import authContext from '../context/AuthContext';
 import ProductModal from '../modal/ProductModal';
 import { getProduct } from './Home';
 
 export function ProductDetails(props: any) {
     const { productId } = props.route.params;
     const [product, setProduct] = useState<ProductModal>();
+    const { authenticated } = useContext(authContext);
 
     useEffect(() => {
-        console.log("Product => ", productId);
         setProduct(getProduct(productId));
     });
 
     const onAddToCart = () => {
-        props.navigation.push("login")
-        // addItemToCart(product.id);
+        if (!authenticated)
+            props.navigation.push("login")
     }
 
     return (
